@@ -1,75 +1,172 @@
-# React + TypeScript + Vite
+# 📚 Biblioteca Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 🔗 Back-end deste projeto: [biblioteca-do-zero](https://github.com/FelipeHenrique20/biblioteca-do-zero)
 
-Currently, two official plugins are available:
+Interface web para o sistema de gerenciamento de biblioteca, desenvolvida com **React, TypeScript e Vite**, consumindo a API REST do projeto [biblioteca-do-zero](https://github.com/FelipeHenrique20/biblioteca-do-zero).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O projeto tem como objetivo aplicar conceitos de desenvolvimento front-end, como consumo de API REST, componentização, gerenciamento de estado e organização de código com TypeScript.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Sobre o projeto
 
-## Expanding the ESLint configuration
+A interface permite gerenciar autores, livros, usuários e empréstimos de uma biblioteca, consumindo diretamente os endpoints da API back-end através de requisições HTTP.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Cada entidade possui sua própria seção, com formulário de cadastro, listagem de dados em tempo real e ações de remoção — refletindo as regras de negócio já validadas no back-end (como disponibilidade de exemplares e bloqueio de remoção de registros com vínculos).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Funcionalidades
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+✅ Cadastro e listagem de autores
+✅ Cadastro e listagem de livros, vinculados a um autor
+✅ Cadastro e listagem de usuários
+✅ Registro de empréstimos, com checagem de disponibilidade de exemplares
+✅ Devolução de empréstimos
+✅ Remoção de registros, com exibição de erros de negócio vindos da API (ex: remoção bloqueada por vínculo)
+✅ Atualização automática das listas após cada ação
 
+---
+
+## 🛠️ Tecnologias utilizadas
+
+* **React**
+* **TypeScript**
+* **Vite**
+* **ESLint**
+* **Git e GitHub**
+
+---
+
+## 📦 Principais dependências
+
+* **React** — construção da interface baseada em componentes
+* **TypeScript** — tipagem estática e maior segurança no desenvolvimento
+* **Vite** — build e servidor de desenvolvimento
+
+---
+
+## 📂 Estrutura do projeto
+
+biblioteca-front
+├── public
+│ ├── favicon.svg
+├── src
+│ ├── assets
+│ ├── components
+│ │ ├── AutorSection.tsx
+│ │ ├── EmprestimoSection.tsx
+│ │ ├── LivroSection.tsx
+│ │ └── UsuarioSection.tsx
+│ ├── App.css
+│ ├── App.tsx
+│ ├── index.css
+│ └── main.tsx
+│
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── README.md
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+
+---
+
+## 🏗️ Arquitetura do projeto
+
+O projeto segue uma organização baseada em componentização por entidade:
+
+* **components:** um componente por entidade do sistema (Autor, Livro, Usuário, Empréstimo), cada um responsável por buscar, exibir, criar e remover seus próprios dados
+* **App:** componente raiz que agrupa todas as seções
+* Cada componente se comunica diretamente com a API através da função `fetch`, tratando tanto respostas de sucesso quanto de erro retornadas pelo back-end
+
+Essa estrutura facilita a manutenção e a adição de novas entidades no futuro.
+
+---
+
+## ⚙️ Como executar o projeto
+
+### Pré-requisitos
+
+Antes de iniciar, tenha instalado:
+
+* Node.js
+* npm
+* Git
+
+**Importante:** este projeto consome a API do [biblioteca-do-zero](https://github.com/FelipeHenrique20/biblioteca-do-zero) — é necessário ter o back-end rodando em `http://localhost:3000` para que os dados sejam carregados corretamente.
+
+---
+
+### Clone o repositório
+
+```bash
+git clone https://github.com/FelipeHenrique20/biblioteca-front.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Entre na pasta:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd biblioteca-front
 ```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+Execute o projeto:
+
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em:
+http://localhost:5173
+
+---
+
+## 🧠 Conceitos aplicados
+
+Durante o desenvolvimento foram praticados:
+
+* Componentização em React
+* Gerenciamento de estado com `useState`
+* Efeitos colaterais com `useEffect`
+* Consumo de API REST com `fetch`
+* Formulários controlados
+* Renderização condicional e de listas
+* Tipagem de dados de API com TypeScript
+* Tratamento de erros retornados pelo back-end
+* Versionamento com Git
+
+---
+
+## 🔮 Próximas melhorias
+
+Algumas melhorias planejadas:
+
+* [ ] Estilização visual completa
+* [ ] Edição de registros (além de criar e remover)
+* [ ] Autenticação de usuários
+* [ ] Deploy da aplicação
+
+---
+
+## 👨‍💻 Autor
+
+**Felipe Henrique**
+
+GitHub:
+https://github.com/FelipeHenrique20
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
