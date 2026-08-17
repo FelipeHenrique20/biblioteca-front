@@ -48,20 +48,23 @@ Cada entidade possui sua própria seção, com formulário de cadastro, listagem
 
 ## 📂 Estrutura do projeto
 
+```
 biblioteca-front
+│
 ├── public
-│ ├── favicon.svg
+│   └── favicon.svg
+│
 ├── src
-│ ├── assets
-│ ├── components
-│ │ ├── AutorSection.tsx
-│ │ ├── EmprestimoSection.tsx
-│ │ ├── LivroSection.tsx
-│ │ └── UsuarioSection.tsx
-│ ├── App.css
-│ ├── App.tsx
-│ ├── index.css
-│ └── main.tsx
+│   ├── assets
+│   ├── components
+│   │   ├── AutorSection.tsx
+│   │   ├── EmprestimoSection.tsx
+│   │   ├── LivroSection.tsx
+│   │   └── UsuarioSection.tsx
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
 │
 ├── .gitignore
 ├── eslint.config.js
@@ -73,6 +76,7 @@ biblioteca-front
 ├── tsconfig.json
 ├── tsconfig.node.json
 └── vite.config.ts
+```
 
 ---
 
