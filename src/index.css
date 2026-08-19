@@ -1,111 +1,250 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --cor-fundo: #12141c;
+  --cor-superficie: #1c1f2b;
+  --cor-borda: #2c2f3d;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --cor-texto: #e4e6eb;
+  --cor-texto-secundario: #9a9dab;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --cor-primaria: #4f7cff;
+  --cor-primaria-hover: #3d63d9;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --cor-erro: #ef4444;
+  --cor-sucesso: #22c55e;
+
+  --espaco-pequeno: 8px;
+  --espaco-medio: 16px;
+  --espaco-grande: 32px;
+
+  --raio-borda: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+* {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  line-height: 1.5;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+#root {
+  min-height: 100vh;
 }
+
+/* LAYOUT */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+}
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+
+  padding: 24px 16px;
+
+  background-color: var(--cor-superficie);
+  border-right: 1px solid var(--cor-borda);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0 12px 30px;
+}
+
+.sidebar-logo span {
+  font-size: 26px;
+}
+
+.sidebar-logo h1 {
+  margin: 0;
+
+  color: var(--cor-texto);
+  font-size: 20px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  padding: 12px;
+
+  border: 0;
+  border-radius: var(--raio-borda);
+
+  background: transparent;
+  color: var(--cor-texto-secundario);
+
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.sidebar-item:hover {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+.sidebar-item.active,
+.sidebar-item[aria-current="page"] {
+  background-color: var(--cor-primaria);
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+
+  padding: 32px;
+}
+
+.main-content > h1 {
+  margin-top: 0;
+  margin-bottom: 30px;
+
+  color: var(--cor-texto);
+  font-size: 28px;
+}
+
+/* CRUD */
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: 2rem;
 }
+
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: 1.4rem;
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid var(--cor-borda);
 }
-p {
+
+section {
+  margin-bottom: var(--espaco-grande);
+  padding: var(--espaco-grande);
+
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+}
+
+/* FORMULÁRIOS */
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-pequeno);
+
+  margin-bottom: var(--espaco-medio);
+}
+
+input,
+select {
+  padding: var(--espaco-pequeno) var(--espaco-medio);
+
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+
+  color: var(--cor-texto);
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+}
+
+button {
+  padding: var(--espaco-pequeno) var(--espaco-medio);
+
+  background-color: var(--cor-primaria);
+  border: none;
+  border-radius: var(--raio-borda);
+
+  color: white;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition: background-color 0.15s ease;
+}
+
+button:hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+/* LISTAS */
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-pequeno);
+
+  padding: 0;
   margin: 0;
+
+  list-style: none;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--espaco-pequeno) var(--espaco-medio);
+
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+li button {
+  background-color: transparent;
+  border: 1px solid var(--cor-erro);
+
+  color: var(--cor-erro);
+}
+
+li button:hover {
+  background-color: var(--cor-erro);
+  color: white;
 }
