@@ -248,3 +248,117 @@ li button:hover {
   background-color: var(--cor-erro);
   color: white;
 }
+
+.subtitulo {
+  color: var(--cor-texto-secundario);
+  margin-top: -20px;
+  margin-bottom: var(--espaco-grande);
+}
+
+.cards-resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--espaco-medio);
+  margin-bottom: var(--espaco-grande);
+}
+
+.card-resumo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-medio);
+
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: var(--espaco-grande);
+}
+
+.card-icone {
+  font-size: 2rem;
+}
+
+.card-label {
+  margin: 0;
+  color: var(--cor-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.card-valor {
+  margin: 4px 0 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.acoes-rapidas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-medio);
+}
+
+.acao-rapida {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: var(--espaco-medio) var(--espaco-grande);
+  color: var(--cor-texto);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.acao-rapida:hover {
+  border-color: var(--cor-primaria);
+  background-color: var(--cor-fundo);
+}
+
+/* Itens de lista com layout */
+
+li {
+  align-items: center;
+}
+
+.item-secundario {
+  color: var(--cor-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.item-acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-medio);
+}
+
+/* Badge de status */
+.badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge-sucesso {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: var(--cor-sucesso);
+}
+
+.badge-erro {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--cor-erro);
+}
+
+.badge-alerta {
+  background-color: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+}
+
+/* Formulário com rótulos acima dos campos */
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campo-formulario label {
+  font-size: 0.8rem;
+  color: var(--cor-texto-secundario);
+}
