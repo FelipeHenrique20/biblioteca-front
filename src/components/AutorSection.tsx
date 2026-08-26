@@ -53,7 +53,6 @@ function AutorSection() {
     
     return (
         <section>
-            <h2>Autores</h2>
 
             <form onSubmit={handleSubmit}>
                 <input
@@ -70,8 +69,13 @@ function AutorSection() {
             <ul>
                 {autores.map((autor) => (
                     <li key={autor.id}>
-                        {autor.nome}
-                        <button onClick={() => handleRemover(autor.id)}>Remover</button>
+                        <div>
+                            <strong>{autor.nome}</strong>
+                        </div>
+
+                        <div className="item-acoes">
+                            <button onClick={() => handleRemover(autor.id)}>Remover</button>
+                        </div>
                     </li>
                 ))}
             </ul>
