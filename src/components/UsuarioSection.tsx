@@ -58,7 +58,6 @@ function UsuarioSection() {
 
     return (
         <section>
-            <h2>Usuários</h2>
 
             <form onSubmit={handleSubmit}>
                 <input 
@@ -81,8 +80,16 @@ function UsuarioSection() {
             <ul>
                 {usuarios.map((usuario) => (
                     <li key={usuario.id}>
-                        {usuario.nome} — {usuario.email}
-                        <button onClick={() => handleRemover(usuario.id)}>Remover</button>
+                        <div>
+                            <strong>{usuario.nome}</strong>
+                            <span className="item-secundario">
+                                — {usuario.email}
+                            </span>
+                        </div>
+
+                        <div className="item-acoes">
+                            <button onClick={() => handleRemover(usuario.id)}>Remover</button>
+                        </div>
                     </li>
                 ))}
             </ul>
