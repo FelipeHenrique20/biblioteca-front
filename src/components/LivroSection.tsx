@@ -87,7 +87,6 @@ function LivroSection() {
 
     return (
         <section>
-            <h2>Livros</h2>
 
             <form onSubmit={handleSubmit}>
                 <input
@@ -127,9 +126,16 @@ function LivroSection() {
             <ul>
                 {livros.map((livro) => (
                     <li key={livro.id}>
-                        {livro.titulo} - {nomeDoAutor(livro.autorId)} (
-                        {livro.quantidadeDisponivel}/{livro.quantidade} disponiveis)
-                        <button onClick={() => handleRemover(livro.id)}>Remover</button>
+                        <div>
+                            <strong>{livro.titulo}</strong>
+                            <span className="item-secundario"> —  {nomeDoAutor(livro.autorId)}</span>
+                        </div>
+                        <div className="item-acoes">
+                            <span className={`badge ${livro.quantidadeDisponivel > 0 ? "badge-sucesso" : "badge-erro"}`}>
+                                {livro.quantidadeDisponivel}/{livro.quantidade} disponíveis
+                            </span>
+                            <button onClick={() => handleRemover(livro.id)}>Remover</button>
+                        </div>
                     </li>
                 ))}
             </ul>
