@@ -105,7 +105,6 @@ function EmprestimoSection() {
 
     return (
         <section>
-            <h2>Empréstimos</h2>
 
             <form onSubmit={handleSubmit}>
                 <select
@@ -153,25 +152,14 @@ function EmprestimoSection() {
             <ul>
                 {emprestimos.map((emprestimo) => (
                     <li key={emprestimo.id}>
-                        <strong>
-                            {nomeDoLivro(emprestimo.livroId)}
-                        </strong>
-
-                        {" — "}
-
-                        {nomeDoUsuario(emprestimo.usuarioId)}
-
-                        {" — "}
-
-                        {emprestimo.dataEmprestimo}
-
-                        <button
-                            onClick={() =>
-                                handleDevolver(emprestimo.id)
-                            }
-                        >
-                            Devolver
-                        </button>
+                        <div>
+                        <strong>{nomeDoLivro(emprestimo.livroId)}</strong>
+                        <span className="item-secundario"> — {nomeDoUsuario(emprestimo.usuarioId)}</span>
+                        </div>
+                        <div className="item-acoes">
+                            <span className="badge badge-alerta">Em andamento</span>
+                            <button onClick={() => handleDevolver(emprestimo.id)}>Devolver</button>
+                        </div>
                     </li>
                 ))}
             </ul>
