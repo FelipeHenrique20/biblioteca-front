@@ -71,8 +71,11 @@ body {
   padding: 0 12px 30px;
 }
 
-.sidebar-logo span {
-  font-size: 26px;
+.sidebar-logo-icone {
+  width: 28px;
+  height: 28px;
+  color: var(--cor-primaria);
+  flex-shrink: 0;
 }
 
 .sidebar-logo h1 {
@@ -111,6 +114,12 @@ body {
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
+}
+
+.sidebar-item-icone {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .sidebar-item:hover {
@@ -274,9 +283,10 @@ li button:hover {
 }
 
 .card-icone {
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
+  width: 32px;
+  height: 32px;
+  color: var(--cor-primaria);
+  flex-shrink: 0;
 }
 
 .card-label {

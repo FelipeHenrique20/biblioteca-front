@@ -1,35 +1,39 @@
 import { NavLink } from "react-router-dom";
+import { LayoutDashboard, BookOpen, Feather, Users, ClipboardList, Library } from "lucide-react";
 
 function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
-                <span>📚</span>
+                <Library className="sidebar-logo-icone" />
                 <h1>Biblioteca</h1>
             </div>
 
             <nav className="sidebar-menu">
-
-                <NavLink to="/" className="sidebar-item">
-                    📊 Dashboard
+                <NavLink to="/" className="sidebar-item" end>
+                    <LayoutDashboard className="sidebar-item-icone" />
+                    Dashboard
                 </NavLink>
 
                 <NavLink to="/livros" className="sidebar-item">
-                    📚 Livros
+                    <BookOpen className="sidebar-item-icone" />
+                    Livros
                 </NavLink>
 
                 <NavLink to="/autores" className="sidebar-item">
-                    ✍️ Autores
+                    <Feather className="sidebar-item-icone" />
+                    Autores
                 </NavLink>
 
                 <NavLink to="/usuarios" className="sidebar-item">
-                    👥 Usuários
+                    <Users className="sidebar-item-icone" />
+                    Usuários
                 </NavLink>
 
                 <NavLink to="/emprestimos" className="sidebar-item">
-                    📋 Empréstimos
+                    <ClipboardList className="sidebar-item-icone" />
+                    Empréstimos
                 </NavLink>
-
             </nav>
         </aside>
     );

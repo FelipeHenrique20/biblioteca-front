@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import iconeLivro from "../assets/iconeLivro.png";
-import iconeAutor from "../assets/iconeAutor.png";
-import iconeEmprestimo from "../assets/iconeEmprestimo.png";
+import { BookOpen, Users, ClipboardList } from 'lucide-react';
 
 interface Resumo {
   totalLivros: number;
@@ -114,7 +112,7 @@ function Dashboard() {
 
       <div className="cards-resumo">
         <div className="card-resumo">
-          <img src={iconeLivro} alt="Ícone de livro" className="card-icone" />
+          <BookOpen className="card-icone" />
           <div>
             <p className="card-label">Total de Livros</p>
             <p className="card-valor">{resumo ? resumo.totalLivros : "..."}</p>
@@ -122,7 +120,7 @@ function Dashboard() {
         </div>
 
         <div className="card-resumo">
-          <img src={iconeAutor} alt="Ícone de Autor" className="card-icone" />
+          <Users className="card-icone" />
           <div>
             <p className="card-label">Autores Cadastrados</p>
             <p className="card-valor">{resumo ? resumo.totalAutores : "..."}</p>
@@ -130,7 +128,7 @@ function Dashboard() {
         </div>
 
         <div className="card-resumo">
-          <img src={iconeEmprestimo} alt="Ícone de Emprestimo" className="card-icone" />
+          <ClipboardList className="card-icone" />
           <div>
             <p className="card-label">Empréstimos Ativos</p>
             <p className="card-valor">{resumo ? resumo.emprestimosAtivos : "..."}</p>
