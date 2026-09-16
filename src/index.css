@@ -54,6 +54,8 @@ body {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 250px;
   min-height: 100vh;
 
@@ -89,6 +91,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1; 
 }
 
 .sidebar-item {
@@ -132,6 +135,64 @@ body {
   background-color: var(--cor-primaria);
   color: white;
 }
+
+/* RODAPÉ DA SIDEBAR */
+
+.sidebar-rodape {
+  margin-top: auto;
+  padding-top: var(--espaco-medio);
+  border-top: 1px solid var(--cor-borda);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-medio);
+}
+
+.sidebar-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-usuario-nome {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--cor-texto);
+}
+
+.sidebar-usuario-email {
+  font-size: 0.8rem;
+  color: var(--cor-texto-secundario);
+}
+
+.sidebar-usuario-role {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--cor-primaria);
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: var(--espaco-pequeno) var(--espaco-medio);
+  background-color: transparent;
+  border: 1px solid var(--cor-erro);
+  border-radius: var(--raio-borda);
+  color: var(--cor-erro);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-logout:hover {
+  background-color: var(--cor-erro);
+  color: white;
+}
+
+/* MAIN CONTENT */
 
 .main-content {
   flex: 1;
@@ -325,10 +386,6 @@ li button:hover {
 
 /* Itens de lista com layout */
 
-li {
-  align-items: center;
-}
-
 .item-secundario {
   color: var(--cor-texto-secundario);
   font-size: 0.9rem;
@@ -401,4 +458,40 @@ li {
 
 .tabela-atividades tbody tr:hover {
   background-color: var(--cor-fundo);
+}
+
+.tela-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cor-fundo);
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-medio);
+
+  width: 100%;
+  max-width: 360px;
+
+  padding: var(--espaco-grande);
+
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+}
+
+.form-login h1 {
+  margin-bottom: 0;
+}
+
+.form-login .subtitulo {
+  margin-top: 0;
+  margin-bottom: var(--espaco-medio);
+}
+
+.form-login button {
+  margin-top: var(--espaco-pequeno);
 }
