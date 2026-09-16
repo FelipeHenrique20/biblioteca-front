@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { criarCabecalhos } from "../utils/api";
 
 interface Autor {
     id: number;
@@ -22,6 +24,8 @@ function LivroSection() {
     const [quantidade, setQuantidade] = useState("1");
     const [autorId, setAutorId] = useState("");
     const [error, setError] = useState("");
+    const { token, conta } = useAuth();
+    const ehAdmin = conta?.role === "admin";
 
     useEffect(() => {
         buscarLivros();
@@ -46,7 +50,7 @@ function LivroSection() {
 
         fetch("http://localhost:3000/livros", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: criarCabecalhos(token),
             body: JSON.stringify({
                 titulo,
                 isbn,
@@ -71,6 +75,7 @@ function LivroSection() {
 
         fetch(`http://localhost:3000/livros/${id}`, {
             method: "DELETE",
+            headers: criarCabecalhos(token),
         }).then((resposta) => {
             if (resposta.status === 204) {
                 buscarLivros();
@@ -87,39 +92,40 @@ function LivroSection() {
 
     return (
         <section>
+            {ehAdmin && (
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
+                        placeholder="Titulo"
+                    />
+                    <input 
+                        type="text" 
+                        value={isbn}
+                        onChange={(e) => setIsbn(e.target.value)}
+                        placeholder="ISBN"
+                    />
+                    <input
+                        type="number" 
+                        min="1"
+                        value={quantidade}
+                        onChange={(e) => setQuantidade(e.target.value)}
+                        placeholder="Quantidade"
+                    />
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={titulo}
-                    onChange={(e) => setTitulo(e.target.value)}
-                    placeholder="Titulo"
-                />
-                <input 
-                    type="text" 
-                    value={isbn}
-                    onChange={(e) => setIsbn(e.target.value)}
-                    placeholder="ISBN"
-                />
-                <input
-                    type="number" 
-                    min="1"
-                    value={quantidade}
-                    onChange={(e) => setQuantidade(e.target.value)}
-                    placeholder="Quantidade"
-                />
+                    <select value={autorId} onChange={(e) => setAutorId(e.target.value)}>
+                        <option value="">Selecione um autor</option>
+                        {autores.map((autor) => (
+                            <option key={autor.id} value={autor.id}>
+                                {autor.nome}
+                            </option>
+                        ))}
+                    </select>
 
-                <select value={autorId} onChange={(e) => setAutorId(e.target.value)}>
-                    <option value="">Selecione um autor</option>
-                    {autores.map((autor) => (
-                        <option key={autor.id} value={autor.id}>
-                            {autor.nome}
-                        </option>
-                    ))}
-                </select>
-
-                <button type="submit">Adicionar</button>
-            </form>
+                    <button type="submit">Adicionar</button>
+                </form>
+            )}
 
             {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -134,7 +140,9 @@ function LivroSection() {
                             <span className={`badge ${livro.quantidadeDisponivel > 0 ? "badge-sucesso" : "badge-erro"}`}>
                                 {livro.quantidadeDisponivel}/{livro.quantidade} disponíveis
                             </span>
-                            <button onClick={() => handleRemover(livro.id)}>Remover</button>
+                            {ehAdmin && (
+                                <button onClick={() => handleRemover(livro.id)}>Remover</button>
+                            )}
                         </div>
                     </li>
                 ))}

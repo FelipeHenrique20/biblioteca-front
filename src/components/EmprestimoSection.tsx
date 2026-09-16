@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { criarCabecalhos } from "../utils/api";
 
 interface Livro {
     id: number;
@@ -28,6 +30,8 @@ function EmprestimoSection() {
     const [livroId, setLivroId] = useState("");
     const [usuarioId, setUsuarioId] = useState("");
     const [error, setError] = useState("");
+    const { token, conta } = useAuth();
+    const ehAdmin = conta?.role === "admin";
 
     useEffect(() => {
         buscarEmprestimosAtivos();
@@ -59,13 +63,13 @@ function EmprestimoSection() {
 
         fetch("http://localhost:3000/emprestimos", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: criarCabecalhos(token),
             body: JSON.stringify({
                 livroId: Number(livroId),
                 usuarioId: Number(usuarioId),
             }),
         }).then((resposta) => {
-            if (resposta.ok) {
+            if (resposta.status === 201) {
                 setLivroId("");
                 setUsuarioId("");
                 buscarEmprestimosAtivos();
@@ -81,6 +85,7 @@ function EmprestimoSection() {
 
         fetch(`http://localhost:3000/emprestimos/${id}/devolver`, {
             method: "PATCH",
+            headers: criarCabecalhos(token),
         }).then((resposta) => {
             if (resposta.ok) {
                 buscarEmprestimosAtivos();
@@ -105,41 +110,42 @@ function EmprestimoSection() {
 
     return (
         <section>
+            {ehAdmin && (
+                <form onSubmit={handleSubmit}>
+                    <select
+                        value={livroId}
+                        onChange={(e) => setLivroId(e.target.value)}
+                    >
+                        <option value="">Selecione um livro</option>
 
-            <form onSubmit={handleSubmit}>
-                <select
-                    value={livroId}
-                    onChange={(e) => setLivroId(e.target.value)}
-                >
-                    <option value="">Selecione um livro</option>
+                        {livros
+                            .filter((livro) => livro.quantidadeDisponivel > 0)
+                            .map((livro) => (
+                                <option key={livro.id} value={livro.id}>
+                                    {livro.titulo} (
+                                    {livro.quantidadeDisponivel} disponíveis)
+                                </option>
+                            ))}
+                    </select>
 
-                    {livros
-                        .filter((livro) => livro.quantidadeDisponivel > 0)
-                        .map((livro) => (
-                            <option key={livro.id} value={livro.id}>
-                                {livro.titulo} (
-                                {livro.quantidadeDisponivel} disponíveis)
+                    <select
+                        value={usuarioId}
+                        onChange={(e) => setUsuarioId(e.target.value)}
+                    >
+                        <option value="">Selecione um usuário</option>
+
+                        {usuarios.map((usuario) => (
+                            <option key={usuario.id} value={usuario.id}>
+                                {usuario.nome}
                             </option>
                         ))}
-                </select>
+                    </select>
 
-                <select
-                    value={usuarioId}
-                    onChange={(e) => setUsuarioId(e.target.value)}
-                >
-                    <option value="">Selecione um usuário</option>
-
-                    {usuarios.map((usuario) => (
-                        <option key={usuario.id} value={usuario.id}>
-                            {usuario.nome}
-                        </option>
-                    ))}
-                </select>
-
-                <button type="submit">
-                    Registrar empréstimo
-                </button>
-            </form>
+                    <button type="submit">
+                        Registrar empréstimo
+                    </button>
+                </form>
+            )}
 
             {error && (
                 <p style={{ color: "red" }}>
@@ -153,12 +159,14 @@ function EmprestimoSection() {
                 {emprestimos.map((emprestimo) => (
                     <li key={emprestimo.id}>
                         <div>
-                        <strong>{nomeDoLivro(emprestimo.livroId)}</strong>
-                        <span className="item-secundario"> — {nomeDoUsuario(emprestimo.usuarioId)}</span>
+                            <strong>{nomeDoLivro(emprestimo.livroId)}</strong>
+                            <span className="item-secundario"> — {nomeDoUsuario(emprestimo.usuarioId)}</span>
                         </div>
                         <div className="item-acoes">
                             <span className="badge badge-alerta">Em andamento</span>
-                            <button onClick={() => handleDevolver(emprestimo.id)}>Devolver</button>
+                            {ehAdmin && (
+                                <button onClick={() => handleDevolver(emprestimo.id)}>Devolver</button>
+                            )}
                         </div>
                     </li>
                 ))}

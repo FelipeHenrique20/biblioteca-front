@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { criarCabecalhos } from "../utils/api";
 
 interface Usuario {
     id: number;
@@ -12,6 +14,8 @@ function UsuarioSection() {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const { token, conta } = useAuth();
+    const ehAdmin = conta?.role === "admin";
 
     useEffect(() => {
         buscarUsuarios();
@@ -29,7 +33,7 @@ function UsuarioSection() {
 
         fetch("http://localhost:3000/usuarios", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: criarCabecalhos(token),
             body: JSON.stringify({ nome, email }),
         }).then((resposta) => {
             if (resposta.status === 201) {
@@ -47,49 +51,47 @@ function UsuarioSection() {
 
         fetch(`http://localhost:3000/usuarios/${id}`, {
             method: "DELETE",
+            headers: criarCabecalhos(token),
         }).then((resposta) => {
             if (resposta.status === 204) {
                 buscarUsuarios();
             } else {
-                resposta.json().then((dados) => setError(dados.error))
+                resposta.json().then((dados) => setError(dados.error));
             }
         });
     }
 
     return (
         <section>
+            {ehAdmin && (
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        type="text"
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                        placeholder="Nome"
+                    />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-mail" 
+                    />
+                    <button type="submit">Adicionar</button>
+                </form>
+            )}
 
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type="text"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    placeholder="Nome"
-                />
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="E-mail" 
-                />
-                <button type="submit">Adicionar</button>
-            </form>
-
-            {error && <p style={{color: "red" }}>{error}</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             <ul>
                 {usuarios.map((usuario) => (
                     <li key={usuario.id}>
-                        <div>
-                            <strong>{usuario.nome}</strong>
-                            <span className="item-secundario">
-                                — {usuario.email}
-                            </span>
-                        </div>
-
-                        <div className="item-acoes">
+                        <span className="item-secundario">
+                            {usuario.nome} — {usuario.email}
+                        </span>
+                        {ehAdmin && (
                             <button onClick={() => handleRemover(usuario.id)}>Remover</button>
-                        </div>
+                        )}
                     </li>
                 ))}
             </ul>
