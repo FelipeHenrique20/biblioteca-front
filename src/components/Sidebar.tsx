@@ -1,7 +1,16 @@
-import { NavLink } from "react-router-dom";
-import { LayoutDashboard, BookOpen, Feather, Users, ClipboardList, Library } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, BookOpen, Feather, Users, ClipboardList, Library, LogOut } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 function Sidebar() {
+    const { conta, logout } = useAuth();
+    const navigate = useNavigate();
+    
+    function handleLogout() {
+        logout();
+        navigate("/login");
+    }
+
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
@@ -35,6 +44,18 @@ function Sidebar() {
                     Empréstimos
                 </NavLink>
             </nav>
+
+            <div className="sidebar-rodape">
+                {conta && (
+                    <p className="sidebar-conta">
+                        {conta.nome} <span className="item-secundario">({conta.role})</span>
+                    </p>
+                )}
+                <button className="sidebar-item sidebar-sair" onClick={handleLogout}>
+                    <LogOut className="sidebar-item-icone" />
+                    Sair
+                </button>
+            </div>
         </aside>
     );
 }
