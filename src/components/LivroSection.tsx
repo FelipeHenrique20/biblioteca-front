@@ -27,6 +27,12 @@ function LivroSection() {
     const { token, conta } = useAuth();
     const ehAdmin = conta?.role === "admin";
 
+    const [idEmEdicao, setIdEmEdicao] = useState<number | null>(null);
+    const [tituloEditado, setTituloEditado] = useState("");
+    const [isbnEditado, setIsbnEditado] = useState("");
+    const [quantidadeEditada, setQuantidadeEditada] =useState("1");
+    const [autorIdEditado, setAutorIdEditado] = useState("");
+
     useEffect(() => {
         buscarLivros();
         buscarAutores();
@@ -85,6 +91,44 @@ function LivroSection() {
         });
     }
 
+    function iniciarEdicao(livro: Livro) {
+        setIdEmEdicao(livro.id);
+        setTituloEditado(livro.titulo);
+        setIsbnEditado(livro.isbn);
+        setQuantidadeEditada(String(livro.quantidade));
+        setAutorIdEditado(String(livro.autorId));
+    }
+
+    function cancelarEdicao() {
+        setIdEmEdicao(null);
+        setTituloEditado("");
+        setIsbnEditado("");
+        setQuantidadeEditada("1");
+        setAutorIdEditado("");
+    }
+
+    function salvarEdicao(id: number) {
+        setError("");
+
+        fetch(`http://localhost:3000/livros/${id}`, {
+            method: "PUT",
+            headers: criarCabecalhos(token),
+            body: JSON.stringify({
+                titulo: tituloEditado,
+                isbn: isbnEditado,
+                quantidade: Number(quantidadeEditada),
+                autorId: Number(autorIdEditado),
+            }),
+        }).then((resposta) => {
+            if (resposta.ok) {
+                cancelarEdicao();
+                buscarLivros();
+            } else {
+                resposta.json().then((dados) => setError(dados.error));
+            }
+        });
+    }
+
     function nomeDoAutor(id: number) {
         const autor = autores.find((a) => a.id === id);
         return autor ? autor.nome : "Desconhecido";
@@ -130,25 +174,68 @@ function LivroSection() {
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             <ul>
-                {livros.map((livro) => (
-                    <li key={livro.id}>
-                        <div>
-                            <strong>{livro.titulo}</strong>
-                            <span className="item-secundario"> —  {nomeDoAutor(livro.autorId)}</span>
-                        </div>
-                        <div className="item-acoes">
-                            <span className={`badge ${livro.quantidadeDisponivel > 0 ? "badge-sucesso" : "badge-erro"}`}>
-                                {livro.quantidadeDisponivel}/{livro.quantidade} disponíveis
-                            </span>
-                            {ehAdmin && (
-                                <button onClick={() => handleRemover(livro.id)}>Remover</button>
-                            )}
-                        </div>
-                    </li>
-                ))}
+                {livros.map((livro) =>
+                    idEmEdicao === livro.id ? (
+                        <li key={livro.id}>
+                            <input
+                                type="text"
+                                value={tituloEditado}
+                                onChange={(e) => setTituloEditado(e.target.value)}
+                                placeholder="Título"
+                                autoFocus
+                            />
+                            <input
+                                type="text"
+                                value={isbnEditado}
+                                onChange={(e) => setIsbnEditado(e.target.value)}
+                                placeholder="ISBN"
+                            />
+                            <input
+                                type="number"
+                                min="1"
+                                value={quantidadeEditada}
+                                onChange={(e) => setQuantidadeEditada(e.target.value)}
+                                placeholder="Quantidade"
+                            />
+                            <select
+                                value={autorIdEditado}
+                                onChange={(e) => setAutorIdEditado(e.target.value)}
+                            >
+                                <option value="">Selecione um autor</option>
+                                {autores.map((autor) => (
+                                    <option key={autor.id} value={autor.id}>
+                                        {autor.nome}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="item-acoes">
+                                <button onClick={() => salvarEdicao(livro.id)}>Salvar</button>
+                                <button className="btn-neutro" onClick={cancelarEdicao}>Cancelar</button>
+                            </div>
+                        </li>
+                    ) : (
+                        <li key={livro.id}>
+                            <div>
+                                <strong>{livro.titulo}</strong>
+                                <span className="item-secundario"> —  {nomeDoAutor(livro.autorId)}</span>
+                            </div>
+                            <div className="item-acoes">
+                                <span className={`badge ${livro.quantidadeDisponivel > 0 ? "badge-sucesso" : "badge-erro"}`}>
+                                    {livro.quantidadeDisponivel}/{livro.quantidade} disponíveis
+                                </span>
+                                {ehAdmin && (
+                                    <>
+                                        <button className="btn-neutro" onClick={() => iniciarEdicao(livro)}>Editar</button>
+                                        <button className="btn-perigo" onClick={() => handleRemover(livro.id)}>Remover</button>
+                                    </>
+                                )}
+                            </div>
+                        </li>
+                    )
+                )}
             </ul>
         </section>
-    )
+    );
 }
 
 export default LivroSection;

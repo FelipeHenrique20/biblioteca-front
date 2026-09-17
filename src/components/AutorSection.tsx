@@ -15,6 +15,9 @@ function AutorSection() {
     const { token, conta } = useAuth();
     const ehAdmin = conta?.role === "admin";
 
+    const [idEmEdicao, setIdEmEdicao] = useState<number | null>(null);
+    const [nomeEditado, setNomeEditado] = useState("");
+
     useEffect(() => {
         buscarAutores();
     }, []);
@@ -57,6 +60,33 @@ function AutorSection() {
             }
         });
     }
+
+    function iniciarEdicao(autor: Autor) {
+        setIdEmEdicao(autor.id);
+        setNomeEditado(autor.nome);
+    }
+
+    function cancelarEdicao() {
+        setIdEmEdicao(null);
+        setNomeEditado("");
+    }
+
+    function salvarEdicao(id: number) {
+        setError("");
+
+        fetch(`http://localhost:3000/autores/${id}`, {
+            method: "PUT",
+            headers: criarCabecalhos(token),
+            body: JSON.stringify({ nome: nomeEditado }),
+        }).then((resposta) => {
+            if (resposta.ok) {
+                cancelarEdicao();
+                buscarAutores();
+            } else {
+                resposta.json().then((dados) => setError(dados.error));
+            }
+        });
+    }
     
     return (
         <section>
@@ -75,14 +105,32 @@ function AutorSection() {
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             <ul>
-                {autores.map((autor) => (
-                    <li key={autor.id}>
-                        <span className="item-secundario">{autor.nome}</span>
-                        {ehAdmin && (
-                            <button onClick={() => handleRemover(autor.id)}>Remover</button>
-                        )}
-                    </li>
-                ))}
+                {autores.map((autor) =>
+                    idEmEdicao === autor.id ? (
+                        <li key={autor.id}>
+                            <input
+                                type="text"
+                                value={nomeEditado}
+                                onChange={(e) => setNomeEditado(e.target.value)}
+                                autoFocus
+                            />
+                            <div className="item-acoes">
+                                <button onClick={() => salvarEdicao(autor.id)}>Salvar</button>
+                                <button className="btn-neutro" onClick={cancelarEdicao}>Cancelar</button>
+                            </div>
+                        </li>
+                    ) : (
+                        <li key={autor.id}>
+                            <span className="item-secundario">{autor.nome}</span>
+                            {ehAdmin && (
+                                <div className="item-acoes">
+                                    <button className="btn-neutro" onClick={() => iniciarEdicao(autor)}>Editar</button>
+                                    <button className="btn-perigo" onClick={() => handleRemover(autor.id)}>Remover</button>
+                                </div>
+                            )}
+                        </li>
+                    )
+                )}
             </ul>
         </section>
     );
