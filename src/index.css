@@ -307,16 +307,26 @@ li {
   border-radius: var(--raio-borda);
 }
 
-li button {
+.btn-perigo {
   background-color: transparent;
   border: 1px solid var(--cor-erro);
-
   color: var(--cor-erro);
 }
 
-li button:hover {
+.btn-perigo:hover {
   background-color: var(--cor-erro);
   color: white;
+}
+
+.btn-neutro {
+  background-color: transparent;
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto-secundario);
+}
+
+.btn-neutro:hover {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
 }
 
 .subtitulo {
