@@ -8,25 +8,28 @@ import Autores from "./pages/Autores";
 import Livros from "./pages/Livros";
 import Usuarios from "./pages/Usuarios";
 import Emprestimos from "./pages/Emprestimos";
+import Contas from "./pages/Contas";
 
 function App() {
-  return (
-    <Routes>
-      <Route element={<RotaPublica />}>
-        <Route path="/login" element={<Login />} />
-      </Route>
+    return (
+        <Routes>
+            <Route element={<RotaPublica />}>
+                <Route path="/login" element={<Login />} />
+            </Route>
 
-    <Route element={<RotaProtegida />}>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="autores" element={<Autores />} />
-        <Route path="livros" element={<Livros />} />
-        <Route path="usuarios" element={<Usuarios />} />
-        <Route path="emprestimos" element={<Emprestimos />} />
-        </Route>
-      </Route>
-    </Routes>
-  );
+            <Route element={<RotaProtegida />}>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="autores" element={<Autores />} />
+                    <Route path="livros" element={<Livros />} />
+                    <Route path="usuarios" element={<Usuarios />} />
+                    <Route path="emprestimos" element={<Emprestimos />} />
+                    <Route path="contas" element={<Contas />} />
+                </Route>
+            </Route>
+        </Routes>
+    );
 }
+
 
 export default App;

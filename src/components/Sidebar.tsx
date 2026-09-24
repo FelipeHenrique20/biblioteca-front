@@ -1,10 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, BookOpen, Feather, Users, ClipboardList, Library, LogOut } from "lucide-react";
+import { LayoutDashboard, BookOpen, Feather, Users, ClipboardList, Library, LogOut, ShieldCheck } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 function Sidebar() {
     const { conta, logout } = useAuth();
     const navigate = useNavigate();
+    const ehAdmin = conta?.role === "admin";
     
     function handleLogout() {
         logout();
@@ -43,6 +44,13 @@ function Sidebar() {
                     <ClipboardList className="sidebar-item-icone" />
                     Empréstimos
                 </NavLink>
+
+                {ehAdmin && (
+                    <NavLink to="/contas" className="sidebar-item">
+                        <ShieldCheck className="sidebar-item-icone" />
+                        Contas
+                    </NavLink>
+                )}
             </nav>
 
             <div className="sidebar-rodape">
