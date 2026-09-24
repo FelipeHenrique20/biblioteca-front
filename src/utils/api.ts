@@ -9,3 +9,13 @@ export function criarCabecalhos(token: string | null): HeadersInit {
 
     return cabecalhos;
 }
+
+export function sessaoExpirada(resposta: Response): boolean {
+    if (resposta.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("conta");
+        window.location.href = "/login";
+        return true;
+    }
+    return false;
+}
