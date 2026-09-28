@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { BookOpen, Users, ClipboardList } from 'lucide-react';
+import { API_URL } from "../utils/api";
 
 interface Resumo {
   totalLivros: number;
@@ -47,11 +48,11 @@ function Dashboard() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:3000/livros").then((r) => r.json()),
-      fetch("http://localhost:3000/autores").then((r) => r.json()),
-      fetch("http://localhost:3000/emprestimos/ativos").then((r) => r.json()),
-      fetch("http://localhost:3000/emprestimos").then((r) => r.json()),
-      fetch("http://localhost:3000/usuarios").then((r) => r.json()),
+      fetch(`${API_URL}/livros`).then((r) => r.json()),
+      fetch(`${API_URL}/autores`).then((r) => r.json()),
+      fetch(`${API_URL}/emprestimos/ativos`).then((r) => r.json()),
+      fetch(`${API_URL}/emprestimos`).then((r) => r.json()),
+      fetch(`${API_URL}/usuarios`).then((r) => r.json()),
     ]).then(([livros, autores, emprestimosAtivos, emprestimos, usuarios]: [
       Livro[],
       unknown[],

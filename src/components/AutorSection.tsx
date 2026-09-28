@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { criarCabecalhos } from "../utils/api";
+import { API_URL, criarCabecalhos } from "../utils/api";
 
 interface Autor {
     id: number;
@@ -23,7 +23,7 @@ function AutorSection() {
     }, []);
 
     function buscarAutores() {
-        fetch("http://localhost:3000/autores")
+        fetch(`${API_URL}/autores`)
             .then((resposta) => resposta.json())
             .then((dados) => setAutores(dados));
     }
@@ -32,7 +32,7 @@ function AutorSection() {
         evento.preventDefault();
         setError("");
 
-        fetch("http://localhost:3000/autores", {
+        fetch(`${API_URL}/autores`, {
             method: "POST",
             headers: criarCabecalhos(token),
             body: JSON.stringify({ nome: novoNome }),
@@ -49,7 +49,7 @@ function AutorSection() {
     function handleRemover(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/autores/${id}`, {
+        fetch(`${API_URL}/autores/${id}`, {
             method: "DELETE",
             headers: criarCabecalhos(token),
         }).then((resposta) => {
@@ -74,7 +74,7 @@ function AutorSection() {
     function salvarEdicao(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/autores/${id}`, {
+        fetch(`${API_URL}/autores/${id}`, {
             method: "PUT",
             headers: criarCabecalhos(token),
             body: JSON.stringify({ nome: nomeEditado }),

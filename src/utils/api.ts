@@ -1,3 +1,5 @@
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 export function criarCabecalhos(token: string | null): HeadersInit {
     const cabecalhos: HeadersInit = {
         "Content-Type": "application/json",

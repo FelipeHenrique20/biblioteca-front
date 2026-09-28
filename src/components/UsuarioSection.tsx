@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { criarCabecalhos } from "../utils/api";
+import { API_URL, criarCabecalhos } from "../utils/api";
 
 interface Usuario {
     id: number;
@@ -26,7 +26,7 @@ function UsuarioSection() {
     }, []);
 
     function buscarUsuarios() {
-        fetch("http://localhost:3000/usuarios")
+        fetch(`${API_URL}/usuarios`)
             .then((resposta) => resposta.json())
             .then((dados) => setUsuarios(dados));
     }
@@ -35,7 +35,7 @@ function UsuarioSection() {
         evento.preventDefault();
         setError("");
 
-        fetch("http://localhost:3000/usuarios", {
+        fetch(`${API_URL}/usuarios`, {
             method: "POST",
             headers: criarCabecalhos(token),
             body: JSON.stringify({ nome, email }),
@@ -53,7 +53,7 @@ function UsuarioSection() {
     function handleRemover(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/usuarios/${id}`, {
+        fetch(`${API_URL}/usuarios/${id}`, {
             method: "DELETE",
             headers: criarCabecalhos(token),
         }).then((resposta) => {
@@ -80,7 +80,7 @@ function UsuarioSection() {
     function salvarEdicao(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/usuarios/${id}`, {
+        fetch(`${API_URL}/usuarios/${id}`, {
             method: "PUT",
             headers: criarCabecalhos(token),
             body: JSON.stringify({ nome: nomeEditado, email: emailEditado }),

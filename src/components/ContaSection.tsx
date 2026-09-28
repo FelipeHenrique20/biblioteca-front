@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { criarCabecalhos, sessaoExpirada } from "../utils/api";
+import { API_URL, criarCabecalhos, sessaoExpirada } from "../utils/api";
 
 interface Conta {
     id: number;
@@ -20,7 +20,7 @@ function ContaSection() {
     }, []);
 
     function buscarContas() {
-        fetch("http://localhost:3000/contas", {
+        fetch(`${API_URL}/contas`, {
             headers: criarCabecalhos(token),
         }).then((resposta) => {
             if (sessaoExpirada(resposta)) return;
@@ -36,7 +36,7 @@ function ContaSection() {
     function handlePromover(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/contas/${id}/promover`, {
+        fetch(`${API_URL}/contas/${id}/promover`, {
             method: "PATCH",
             headers: criarCabecalhos(token),
         }).then((resposta) => {
@@ -51,7 +51,7 @@ function ContaSection() {
     function handleRebaixar(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/contas/${id}/rebaixar`, {
+        fetch(`${API_URL}/contas/${id}/rebaixar`, {
             method: "PATCH",
             headers: criarCabecalhos(token),
         }).then((resposta) => {

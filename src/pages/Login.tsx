@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { API_URL } from "../utils/api";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function Login() {
         evento.preventDefault();
         setErro("");
 
-        fetch("http://localhost:3000/contas/login", {
+        fetch(`${API_URL}/contas/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, senha }),

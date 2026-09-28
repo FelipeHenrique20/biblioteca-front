@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { criarCabecalhos } from "../utils/api";
+import { API_URL, criarCabecalhos } from "../utils/api";
 
 interface Livro {
     id: number;
@@ -40,19 +40,19 @@ function EmprestimoSection() {
     }, []);
 
     function buscarEmprestimosAtivos() {
-        fetch("http://localhost:3000/emprestimos/ativos")
+        fetch(`${API_URL}/emprestimos/ativos`)
             .then((resposta) => resposta.json())
             .then((dados) => setEmprestimos(dados));
     }
 
     function buscarLivros() {
-        fetch("http://localhost:3000/livros")
+        fetch(`${API_URL}/livros`) 
             .then((resposta) => resposta.json())
             .then((dados) => setLivros(dados));
     }
 
     function buscarUsuarios() {
-        fetch("http://localhost:3000/usuarios")
+        fetch(`${API_URL}/usuarios`)
             .then((resposta) => resposta.json())
             .then((dados) => setUsuarios(dados));
     }
@@ -61,7 +61,7 @@ function EmprestimoSection() {
         evento.preventDefault();
         setError("");
 
-        fetch("http://localhost:3000/emprestimos", {
+        fetch(`${API_URL}/emprestimos`, {
             method: "POST",
             headers: criarCabecalhos(token),
             body: JSON.stringify({
@@ -83,7 +83,7 @@ function EmprestimoSection() {
     function handleDevolver(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/emprestimos/${id}/devolver`, {
+        fetch(`${API_URL}/emprestimos/${id}/devolver`, {
             method: "PATCH",
             headers: criarCabecalhos(token),
         }).then((resposta) => {

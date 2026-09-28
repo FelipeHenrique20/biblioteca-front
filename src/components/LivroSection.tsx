@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { criarCabecalhos } from "../utils/api";
+import { API_URL, criarCabecalhos } from "../utils/api";
 
 interface Autor {
     id: number;
@@ -39,13 +39,13 @@ function LivroSection() {
     }, []);
 
     function buscarLivros() {
-        fetch("http://localhost:3000/livros")
+        fetch(`${API_URL}/livros`)
             .then((resposta) => resposta.json())
             .then((dados) => setLivros(dados));
     }
 
     function buscarAutores() {
-        fetch("http://localhost:3000/autores")
+        fetch(`${API_URL}/autores`)
             .then((resposta) => resposta.json())
             .then((dados) => setAutores(dados));
     }
@@ -54,7 +54,7 @@ function LivroSection() {
         evento.preventDefault();
         setError("");
 
-        fetch("http://localhost:3000/livros", {
+        fetch(`${API_URL}/livros`, {
             method: "POST",
             headers: criarCabecalhos(token),
             body: JSON.stringify({
@@ -79,7 +79,7 @@ function LivroSection() {
     function handleRemover(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/livros/${id}`, {
+        fetch(`${API_URL}/livros/${id}`, {
             method: "DELETE",
             headers: criarCabecalhos(token),
         }).then((resposta) => {
@@ -110,7 +110,7 @@ function LivroSection() {
     function salvarEdicao(id: number) {
         setError("");
 
-        fetch(`http://localhost:3000/livros/${id}`, {
+        fetch(`${API_URL}/livros/${id}`, {
             method: "PUT",
             headers: criarCabecalhos(token),
             body: JSON.stringify({
