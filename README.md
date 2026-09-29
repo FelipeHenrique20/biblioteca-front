@@ -1,5 +1,9 @@
 # 📚 Biblioteca Front-end
 
+> 🌐 **Demo ao vivo:** [biblioteca-front-puce-mu.vercel.app](https://biblioteca-front-puce-mu.vercel.app)
+> 
+> Conta de demonstração: `admin@biblioteca-demo.com` / `Admin5tD@aA`
+
 > 🔗 Back-end deste projeto: [biblioteca-do-zero](https://github.com/FelipeHenrique20/biblioteca-do-zero)
 
 Interface web para o sistema de gerenciamento de biblioteca, desenvolvida com **React, TypeScript e Vite**, consumindo a API REST do projeto [biblioteca-do-zero](https://github.com/FelipeHenrique20/biblioteca-do-zero).
